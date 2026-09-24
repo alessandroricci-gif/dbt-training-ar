@@ -1,0 +1,98 @@
+version: 2
+
+seeds:
+  - name: jaffle_shop__customers
+    description: "Model for customers data"
+    # config: 
+    #   enabled: true
+    #   column_types:
+    #     ID: integer
+    #     FIRST_NAME: varchar
+    #     LAST_NAME: varchar
+    columns:
+      - name: ID
+        description: "Customer ID"
+        data_tests:
+          - unique
+          - not_null
+      - name: FIRST_NAME
+        description: "Customer first name"
+      - name: LAST_NAME
+        description: "Customer last name"      
+  - name: jaffle_shop__orders
+    description: description
+    # config: 
+    #   enabled: true
+    #   column_types:
+    #     ID: integer
+    #     USER_ID: integer
+    #     ORDER_DATE: date
+    #     STATUS: varchar
+    columns:
+      - name: ID
+        description: "Order ID"
+        data_tests:
+          - unique
+          - not_null
+      - name: USER_ID
+        description: "ID of the user who made the order"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('jaffle_shop__customers')
+                field: "ID"
+      - name: ORDER_DATE
+        description: "Order date"
+      - name: STATUS
+        description: "Order status"
+        data_tests:
+          - accepted_values:
+              arguments: 
+                values: ['returned', 'completed', 'return_pending', 'shipped', 'placed']
+  - name: stripe_payments
+    description: description
+    # config:
+    #   enabled: true
+    #   column_types:
+    #     ID: integer
+    #     ORDERID: integer
+    #     PAYMENTMETHOD: varchar
+    #     STATUS: varchar
+    #     AMOUNT: numeric
+    #     CREATED: date
+    columns:
+      - name: ID
+        description: "Stripe payment ID"
+        data_tests:
+          - unique
+          - not_null
+      - name: ORDERID
+        description: "ID of the order related to the payment."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('jaffle_shop__orders')
+                field: "ID"
+      - name: PAYMENTMETHOD
+        description: "Payment method for the given order"
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['credit_card', 'coupon', 'bank_transfer', 'gift_card']
+      - name: STATUS
+        description: "Order status"
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['success', 'fail']
+      - name: AMOUNT
+        description: "Order amount"
+      - name: CREATED
+        description: "Order date"
+        data_tests:
+          - not_null
+          
+      
+      

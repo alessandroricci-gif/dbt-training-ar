@@ -1,0 +1,20 @@
+version: 2
+
+models:
+    - name: stg_jaffle_shop__customers
+      description: "A starter dbt model"
+      columns:
+          - name: id
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null
+
+    - name: stg_jaffle_shop__orders
+      description: "A starter dbt model"
+      columns:
+          - name: id
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null
