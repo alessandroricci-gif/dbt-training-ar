@@ -1,0 +1,120 @@
+version: 2
+
+seeds:
+  - name: regionalmanager
+    description: "Dati relativi ai Regional Manager"
+    columns:
+      - name: PERSON
+        description: ""
+      - name: REGION
+        description: ""
+      - name: MARKET
+        description: ""
+
+  - name: return
+    description: "Dati relativi ai resi degli ordini"
+    columns:
+      - name: RETURNED_FLAG
+        description: ""
+      - name: ORDER_COD
+        description: ""
+      - name: PRODUCT_COD
+        description: ""
+
+  - name: calendar
+    description: "Tabella calendario per le dimensioni temporali"
+    columns:
+      - name: DATE_DT
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: DATE_CODE
+        description: ""
+      - name: DAY_CODE
+        description: ""
+      - name: DATE_DESC
+        description: ""
+      - name: DAY_DESC
+        description: ""
+      - name: WEEK_CODE
+        description: ""
+      - name: WEEK_DESC
+        description: ""
+      - name: MONTH_CODE
+        description: ""
+      - name: MONTH_DESC
+        description: ""
+      - name: YEAR_CODE
+        description: ""
+      - name: QUARTER_CODE
+        description: ""
+      - name: HALF_CODE
+        description: ""
+
+  - name: order
+    description: "Dettaglio degli ordini effettuati"
+    columns:
+      - name: ROW_ID
+        description: ""
+        data_tests:
+          - not_null
+          - unique
+      - name: ORDER_COD
+        description: ""
+      - name: ORDER_DATE
+        description: ""
+      - name: SHIP_DATE
+        description: ""
+      - name: SHIP_MODE
+        description: ""
+      - name: CLIENT_COD
+        description: ""
+      - name: CLIENT_NAME
+        description: ""
+      - name: CLIENT_ADDRESS_COD
+        description: ""
+      - name: CLIENT_CITY
+        description: ""
+      - name: CLIENT_STATE
+        description: ""
+      - name: CLIENT_COUNTRY
+        description: ""
+      - name: CLIENT_POSTAL_CODE
+        description: ""
+      - name: CLIENT_SEGMENT
+        description: ""
+      - name: SHIPMENT_ADDRESS_COD
+        description: ""
+      - name: SHIPMENT_CITY
+        description: ""
+      - name: SHIPMENT_STATE
+        description: ""
+      - name: SHIPMENT_COUNTRY
+        description: ""
+      - name: SHIPMENT_POSTAL_CODE
+        description: ""
+      - name: MARKET
+        description: ""
+      - name: REGION
+        description: ""
+      - name: PRODUCT_COD
+        description: ""
+      - name: CATEGORY
+        description: ""
+      - name: SUB_CATEGORY
+        description: ""
+      - name: PRODUCT_NAME
+        description: ""
+      - name: SALES
+        description: ""
+      - name: QUANTITY
+        description: ""
+      - name: DISCOUNT
+        description: ""
+      - name: PROFIT
+        description: ""
+      - name: SHIPPING_COST
+        description: ""
+      - name: ORDER_PRIORITY
+        description: ""
