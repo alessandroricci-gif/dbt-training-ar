@@ -1,0 +1,210 @@
+version: 2
+
+models:
+  - name: D_PRODUCT__DWH
+    description: "Tabella dimensionale per l'anagrafica prodotti"
+    columns:
+      - name: PRODUCT_ID
+        description: "Chiave primaria surrogata del prodotto (hash di PRODUCT_CD)"
+        tests:
+          - not_null
+          - unique
+      - name: PRODUCT_CD
+        description: "Codice naturale del prodotto (Business Key)"
+      - name: PRODUCT_DS
+        description: "Nome o descrizione del prodotto"
+      - name: CATEGORY_DS
+        description: "Categoria del prodotto"
+      - name: SUBCATEGORY_DS
+        description: "Sottocategoria del prodotto"
+      - name: TRANSACTION_TIMESTAMP
+        description: "Timestamp di inserimento del record nel DWH"
+      - name: TRANSACTION_FLAG
+        description: "Flag tecnico (es. 'I' per Insert)"
+
+  - name: D_ADDRESS__DWH
+    description: "Tabella dimensionale per gli indirizzi (Clienti e Spedizioni)"
+    columns:
+      - name: ADDRESS_ID
+        description: "Chiave primaria surrogata dell'indirizzo"
+        tests:
+          - not_null
+          - unique
+      - name: ADDRESS_CD
+        description: "Codice naturale dell'indirizzo"
+      - name: CITY_DS
+        description: "Città"
+      - name: STATE_DS
+        description: "Stato / Provincia"
+      - name: COUNTRY_DS
+        description: "Nazione"
+      - name: POSTAL_CODE_CD
+        description: "Codice Postale (ZIP)"
+      - name: TRANSACTION_TIMESTAMP
+        description: ""
+      - name: TRANSACTION_FLAG
+        description: ""
+
+  - name: D_CLIENT__DWH
+    description: "Tabella dimensionale per l'anagrafica clienti"
+    columns:
+      - name: CLIENT_ID
+        description: "Chiave primaria surrogata del cliente"
+        tests:
+          - not_null
+          - unique
+      - name: CLIENT_CD
+        description: "Codice naturale del cliente"
+      - name: CLIENT_DS
+        description: "Nome del cliente"
+      - name: CLIENT_SEGMENT_DS
+        description: "Segmento di mercato del cliente"
+      - name: CLIENT_ADDRESS_ID
+        description: "Foreign Key che punta alla dimensione indirizzi (D_ADDRESS__DWH)"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('D_ADDRESS__DWH')
+                field: ADDRESS_ID
+      - name: TRANSACTION_TIMESTAMP
+        description: ""
+      - name: TRANSACTION_FLAG
+        description: ""
+
+  - name: D_CALENDAR__DWH
+    description: "Tabella dimensionale del calendario temporale"
+    columns:
+      - name: DATE_ID
+        description: "Chiave primaria surrogata della data (hash di DATE_DT)"
+        tests:
+          - not_null
+          - unique
+      - name: DATE_DT
+        description: "Data in formato DATE"
+      - name: DATE_CD
+        description: ""
+      - name: DAY_CD
+        description: "Numero del giorno (1-31)"
+      - name: DATE_DS
+        description: "Descrizione completa della data"
+      - name: DAY_DS
+        description: "Nome del giorno della settimana"
+      - name: WEEK_CD
+        description: "Numero della settimana nell'anno"
+      - name: WEEK_DS
+        description: ""
+      - name: MONTH_CD
+        description: "Codice univoco del mese"
+      - name: MONTH_DS
+        description: "Nome del mese"
+      - name: YEAR_CD
+        description: "Anno"
+      - name: QUARTER_CD
+        description: "Trimestre"
+      - name: HALF_CD
+        description: "Semestre"
+      - name: TRANSACTION_TIMESTAMP
+        description: ""
+      - name: TRANSACTION_FLAG
+        description: ""
+
+  - name: D_MANAGER__DWH
+    description: "Tabella dimensionale per i Regional Manager"
+    columns:
+      - name: REGIONAL_MANAGER_ID
+        description: "Chiave primaria surrogata (hash di Region e Market)"
+        tests:
+          - not_null
+          - unique
+      - name: REGION_DS
+        description: "Regione di competenza"
+      - name: MARKET_DS
+        description: "Mercato di riferimento"
+      - name: PERSON_DS
+        description: "Nome del Regional Manager"
+      - name: TRANSACTION_TIMESTAMP
+        description: ""
+      - name: TRANSACTION_FLAG
+        description: ""
+
+  - name: F_ORDER__DWH
+    description: "Tabella dei fatti contenente il dettaglio degli ordini, le spedizioni e i profitti"
+    columns:
+      - name: ORDER_ID
+        description: "Chiave primaria surrogata (Hash di ORDER_CD e PRODUCT_CD a livello di singola riga d'ordine)"
+        tests:
+          - not_null
+          - unique
+      - name: ORDER_CD
+        description: "Codice naturale dell'ordine"
+      - name: PRODUCT_CD
+        description: "Codice del prodotto (per eventuali join di appoggio)"
+      - name: ORDER_PRIORITY_DS
+        description: "Priorità dell'ordine"
+      - name: ORDER_DATE_ID
+        description: "FK: Data di inserimento ordine"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('D_DATE__DWH')
+                field: DATE_ID
+      - name: SHIPMENT_DATE_ID
+        description: "FK: Data di spedizione"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('D_DATE__DWH')
+                field: DATE_ID
+      - name: SHIPMENT_MODE_DS
+        description: "Modalità di spedizione (es. Standard, Express)"
+      - name: SHIPMENT_ADDRESS_ID
+        description: "FK: Indirizzo di spedizione"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('D_ADDRESS__DWH')
+                field: ADDRESS_ID
+      - name: CLIENT_ID
+        description: "FK: Cliente che ha effettuato l'ordine"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('D_CLIENT__DWH')
+                field: CLIENT_ID
+      - name: REGIONAL_MANAGER_ID
+        description: "FK: Manager responsabile dell'area"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('D_MANAGER__DWH')
+                field: REGIONAL_MANAGER_ID
+      - name: PRODUCT_ID
+        description: "FK: Prodotto venduto"
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('D_PRODUCT__DWH')
+                field: PRODUCT_ID
+      - name: RETURNED_FL
+        description: "Flag (0 o 1) che indica se l'articolo è stato restituito"
+      - name: QTY
+        description: "Quantità acquistata"
+      - name: SALES_VL
+        description: "Valore totale delle vendite (fatturato)"
+      - name: DISCOUNT_VL
+        description: "Sconto applicato"
+      - name: PROFIT_VL
+        description: "Profitto netto generato"
+      - name: SHIPPING_COST_VAL
+        description: "Costo della spedizione"
+      - name: TRANSACTION_TIMESTAMP
+        description: ""
+      - name: TRANSACTION_FLAG
+        description: ""

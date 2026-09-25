@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: regionalmanager__ODS
+  - name: REGIONALMANAGER__ODS
     description: "Dati relativi ai Regional Manager"
     columns:
       - name: PERSON
@@ -11,7 +11,7 @@ models:
       - name: MARKET
         description: ""
 
-  - name: return__ODS
+  - name: RETURN__ODS
     description: "Dati relativi ai resi degli ordini"
     columns:
       - name: RETURNED_FLAG
@@ -21,7 +21,7 @@ models:
       - name: PRODUCT_COD
         description: ""
 
-  - name: calendar__ODS
+  - name: CALENDAR__ODS
     description: "Tabella calendario per le dimensioni temporali"
     columns:
       - name: DATE_DT
@@ -52,7 +52,7 @@ models:
       - name: HALF_CODE
         description: ""
 
-  - name: order__ODS
+  - name: ORDER__ODS
     description: "Dettaglio degli ordini effettuati"
     columns:
       - name: ROW_ID
