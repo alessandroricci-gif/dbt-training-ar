@@ -1,7 +1,7 @@
 version: 2
 
-seeds:
-  - name: regionalmanager
+models:
+  - name: regionalmanager__ODS
     description: "Dati relativi ai Regional Manager"
     columns:
       - name: PERSON
@@ -11,7 +11,7 @@ seeds:
       - name: MARKET
         description: ""
 
-  - name: return
+  - name: return__ODS
     description: "Dati relativi ai resi degli ordini"
     columns:
       - name: RETURNED_FLAG
@@ -21,7 +21,7 @@ seeds:
       - name: PRODUCT_COD
         description: ""
 
-  - name: calendar
+  - name: calendar__ODS
     description: "Tabella calendario per le dimensioni temporali"
     columns:
       - name: DATE_DT
@@ -52,7 +52,7 @@ seeds:
       - name: HALF_CODE
         description: ""
 
-  - name: order
+  - name: order__ODS
     description: "Dettaglio degli ordini effettuati"
     columns:
       - name: ROW_ID
@@ -64,8 +64,20 @@ seeds:
         description: ""
       - name: ORDER_DATE
         description: ""
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('calendar__ODS')
+                field: DATE_DT
       - name: SHIP_DATE
         description: ""
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('calendar__ODS')
+                field: DATE_DT
       - name: SHIP_MODE
         description: ""
       - name: CLIENT_COD
