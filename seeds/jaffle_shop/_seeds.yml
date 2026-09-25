@@ -82,7 +82,7 @@ seeds:
               arguments:
                 values: ['credit_card', 'coupon', 'bank_transfer', 'gift_card']
       - name: STATUS
-        description: "Order status"
+        description: "Payment status"
         data_tests:
           - accepted_values:
               arguments:
@@ -90,7 +90,7 @@ seeds:
       - name: AMOUNT
         description: "Order amount"
       - name: CREATED
-        description: "Order date"
+        description: "Order creation date"
         data_tests:
           - not_null
           
